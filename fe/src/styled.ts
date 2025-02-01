@@ -28,7 +28,6 @@ export const StyledTable = styled.table`
   font-size: 0.875rem;
   text-align: left;
   color: #6B7280; 
-  direction: rtl;
   
   @media (prefers-color-scheme: dark) {
     color: #D1D5DB; 
