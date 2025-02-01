@@ -1,57 +1,55 @@
-import { useEffect, useState } from 'react';
 import './App.css';
-import { StyledTable, TableCell, TableContainer, TableDataRow, TableHeader, TableHeaderCell, TableRow } from './styled';
+import { ContentArea, FormWrapper, MainContainer, StyledTable, TableCell, TableHeader, TableHeaderCell, TableRow, TableWrapper } from './styled';
+import Navbar from './components/header';
+import TableCommissions from './components/TableCommissions';
+import TableMarketing from './components/TableMarketing';
 
-interface Commission {
-  marketing_name: string;
-  month: string;
-  omzet: number;
-  commission_pct: number;
-  commission_nominal: number;
-}
+
 
 function App() {
-  const [commissions, setCommissions] = useState<Commission[]>([]);
-
-  useEffect(()=>{
-    const fetchCommissions = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/commissions');
-        const data = await response.json();
-        setCommissions(data);
-      } catch (error) {
-        console.error('Error fetching commissions:', error);
-      }
-    }
-    fetchCommissions();
-  },[]);
-
   return (
     <>
-      <TableContainer>
-        <StyledTable>
-          <TableHeader>
-            <TableRow>
-              <TableHeaderCell>Marketing</TableHeaderCell>
-              <TableHeaderCell>Bulan</TableHeaderCell>
-              <TableHeaderCell>Omzet</TableHeaderCell>
-              <TableHeaderCell>Komisi %</TableHeaderCell>
-              <TableHeaderCell>Komisi Nominal</TableHeaderCell>
-            </TableRow>
-          </TableHeader>
-          <tbody>
-            {commissions.map((commissions, index)=>(
-              <TableRow key={index}>
-                <TableDataRow>{commissions.marketing_name}</TableDataRow>
-                <TableCell>{commissions.month}</TableCell>
-                <TableCell>{commissions.omzet}</TableCell>
-                <TableCell>{commissions.commission_pct.toFixed(2)}%</TableCell>
-                <TableCell>{commissions.commission_nominal.toFixed(2)}</TableCell>
-              </TableRow>
-            ))}
-          </tbody>
-        </StyledTable>
-      </TableContainer>
+    <MainContainer>
+      <Navbar/>
+      <TableWrapper>
+        <ContentArea>
+            <TableMarketing/>
+            <TableCommissions/>
+        </ContentArea>
+        <ContentArea>
+          <StyledTable>
+              <TableHeader>
+                <TableRow>
+                  <TableHeaderCell>Pembayaran ID</TableHeaderCell>
+                  <TableHeaderCell>Amount</TableHeaderCell>
+                  <TableHeaderCell>Date</TableHeaderCell>
+                </TableRow>
+              </TableHeader>
+              <tbody>
+                <TableRow>
+                  <TableCell>123</TableCell>
+                  <TableCell>100,000</TableCell>
+                  <TableCell>2025-02-01</TableCell>
+                </TableRow>
+              </tbody>
+            </StyledTable>
+
+          <FormWrapper>
+            <form>
+              <label htmlFor="pembayaranAmount">Amount</label>
+              <input type="number" id="pembayaranAmount" name="pembayaranAmount" />
+              <br />
+              <label htmlFor="pembayaranDate">Date</label>
+              <input type="date" id="pembayaranDate" name="pembayaranDate" />
+              <br />
+              <button type="submit">Submit</button>
+            </form>
+          </FormWrapper>
+        </ContentArea>
+            
+      </TableWrapper>
+      
+      </MainContainer>
     </>
   );
 }

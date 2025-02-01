@@ -14,6 +14,11 @@ import (
 
 var db *sql.DB
 
+type Marketing struct {
+	ID   uint   `json:"id"`
+	Name string `json:"name"`
+}
+
 type Commission struct {
 	MarketingName     string  `json:"marketing_name"`
 	Month             string  `json:"month"`
@@ -34,6 +39,29 @@ func connectDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getMarketing(c *gin.Context) {
+	rows, err := db.Query("SELECT id, name FROM marketing")
+	if err != nil {
+		log.Println("Error querying database:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch data"})
+		return
+	}
+	defer rows.Close()
+
+	var marketingList []Marketing
+	for rows.Next() {
+		var marketing Marketing
+		if err := rows.Scan(&marketing.ID, &marketing.Name); err != nil {
+			log.Println("Error scanning row:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse data"})
+			return
+		}
+		marketingList = append(marketingList, marketing)
+	}
+
+	c.JSON(http.StatusOK, marketingList)
 }
 
 func calculateCommission(omzet int64) (float64, float64) {
@@ -176,6 +204,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
+	r.GET("/marketing", getMarketing)
 	r.GET("/commissions", getMarketingCommissions)
 	r.POST("/payment", makePayment)
 	r.GET("/transaction/:id/status", checkTransactionStatus)
