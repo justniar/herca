@@ -1,9 +1,10 @@
 import './App.css';
-import { ContentArea, FormWrapper, MainContainer, TableWrapper } from './styled';
+import { ContentArea, FormContainer, FormWrapper, InputField, InputLabel, MainContainer, TableWrapper } from './styled';
 import Navbar from './components/header';
 import TableCommissions from './components/TableCommissions';
 import TableMarketing from './components/TableMarketing';
 import { useState } from 'react';
+import TablePayment from './components/TablePayment';
 
 function App() {
   const [amountPaid, setAmountPaid] = useState<number>(0);
@@ -52,28 +53,27 @@ function App() {
           <TableCommissions/>
         </ContentArea>
         <ContentArea>
+          <TablePayment/>
           <FormWrapper>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="penjualan_id">Penjualan ID</label>
-              <input
+            <FormContainer onSubmit={handleSubmit}>
+              <InputLabel htmlFor="penjualan_id">Penjualan ID</InputLabel>
+              <InputField
                 type="number"
                 id="penjualan_id"
                 name="penjualan_id"
                 value={penjualanID}
                 onChange={(e) => setPenjualanID(Number(e.target.value))}
               />
-              <br />
-              <label htmlFor="amount_paid">Amount</label>
-              <input
+              <InputLabel htmlFor="amount_paid">Amount</InputLabel>
+              <InputField
                 type="number"
                 id="amount_paid"
                 name="amount_paid"
                 value={amountPaid}
                 onChange={handleAmountChange}
               />
-              <br />
-              <button type="submit">Submit</button>
-            </form>
+              <SubmitButton type="submit">Submit</SubmitButton>
+            </FormContainer>
           </FormWrapper>
         </ContentArea>
       </TableWrapper>

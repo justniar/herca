@@ -18,11 +18,6 @@ export const TableWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const FormWrapper = styled.div`
-  margin-top: 2rem;
-`;
-
-
 export const TableContainer = styled.div`
   overflow-x: auto;
 `;
@@ -94,4 +89,55 @@ export const NavBar = styled.header`
 `;
 
 export const Nav = styled.nav`
+`;
+
+export const FormWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background-color: #f4f4f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+export const InputLabel = styled.label`
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+`;
+
+export const InputField = styled.input`
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:focus {
+    border-color: #4b9cf3;
+    outline: none;
+  }
+`;
+
+export const SubmitButton = styled.button`
+  background-color: #4b9cf3;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #3578b1;
+  }
+  &:focus {
+    outline: none;
+  }
 `;

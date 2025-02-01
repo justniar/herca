@@ -32,6 +32,14 @@ type PaymentRequest struct {
 	AmountPaid  int64 `json:"amount_paid"`
 }
 
+type Payment struct {
+	ID               int64  `json:"id"`
+	PenjualanID      int    `json:"penjualan_id"`
+	PaymentDate      string `json:"payment_date"`
+	AmountPaid       int64  `json:"amount_paid"`
+	RemainingBalance int64  `json:"remaining_balance"`
+}
+
 func connectDB() {
 	var err error
 	connStr := "user=postgres dbname=herca password=postgres sslmode=disable"
@@ -197,6 +205,32 @@ func checkTransactionStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status_pembayaran": status})
 }
 
+func GetPembayaran(c *gin.Context) {
+	var payments []Payment
+	rows, err := db.Query("SELECT id, penjualan_id, payment_date, amount_paid, remaining_balance FROM pembayaran")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch payments"})
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var payment Payment
+		if err := rows.Scan(&payment.ID, &payment.PenjualanID, &payment.PaymentDate, &payment.AmountPaid, &payment.RemainingBalance); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to scan row"})
+			return
+		}
+		payments = append(payments, payment)
+	}
+
+	if err := rows.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Row error"})
+		return
+	}
+
+	c.JSON(http.StatusOK, payments)
+}
+
 func main() {
 	connectDB()
 	defer db.Close()
@@ -207,6 +241,7 @@ func main() {
 	r.GET("/marketing", getMarketing)
 	r.GET("/commissions", getMarketingCommissions)
 	r.POST("/payment", makePayment)
+	r.GET("/payment", GetPembayaran)
 	r.GET("/transaction/:id/status", checkTransactionStatus)
 
 	r.Run(":8080")
