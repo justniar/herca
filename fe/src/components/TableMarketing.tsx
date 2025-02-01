@@ -3,7 +3,7 @@ import { StyledTable, TableCell, TableDataRow, TableHeader, TableHeaderCell, Tab
 
 interface Marketing {
     id: string;
-    marketing_name: string;
+    name: string;
 }
 
 const TableMarketing = () => {
@@ -14,6 +14,7 @@ const TableMarketing = () => {
         try {
             const response = await fetch('http://localhost:8080/marketing');
             const data = await response.json();
+            console.log('Fetched data:', data); 
             setMarketing(data);
         } catch (error) {
             console.error('Error fetching Marketing:', error);
@@ -34,7 +35,7 @@ const TableMarketing = () => {
             {marketing.map((marketing, i)=>(
                 <TableRow key={i}>
                     <TableDataRow>{marketing.id}</TableDataRow>
-                    <TableCell>{marketing.marketing_name}</TableCell>
+                    <TableCell>{marketing.name}</TableCell>
                 </TableRow>
             ))}
             </tbody>
