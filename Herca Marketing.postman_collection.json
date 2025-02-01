@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "52681cfa-e7df-452b-a85d-a7280aee3098",
+		"name": "Herca Marketing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33048335"
+	},
+	"item": [
+		{
+			"name": "commisions",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "add payment",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
