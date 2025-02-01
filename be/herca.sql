@@ -50,3 +50,13 @@ VALUES
 
 select * from penjualan;
 
+CREATE TABLE pembayaran (
+    id SERIAL PRIMARY KEY,
+    penjualan_id INT NOT NULL,
+    payment_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    amount_paid BIGINT NOT NULL CHECK (amount_paid > 0),
+    remaining_balance BIGINT NOT NULL,
+    FOREIGN KEY (penjualan_id) REFERENCES penjualan(id) ON DELETE CASCADE
+);
+
+
