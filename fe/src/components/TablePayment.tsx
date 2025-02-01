@@ -1,63 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledTable, TableCell, TableHeader, TableHeaderCell, TableRow } from '../styled';
 
 interface Payment {
-  id: string;
-  penjualanId: string;
-  date: string;
-  amountPaid: number;
-  remainingBalance: number;
+  id: number;
+  penjualan_id: number;
+  payment_date: string;
+  amount_paid: number;
+  remaining_balance: number;
 }
 
 const TablePayment = () => {
   const [payments, setPayments] = useState<Payment[]>([]);
-  const [penjualanId, setPenjualanId] = useState<string>('');
-  const [amountPaid, setAmountPaid] = useState<number>(0);
-  const [paymentDate, setPaymentDate] = useState<string>('');
-  const [remainingBalance, setRemainingBalance] = useState<number>(0);
 
-  const handlePaymentSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    useEffect(()=>{
-        const fetchCommissions = async () => {
-        try {
-            const response = await fetch('http://localhost:8080/payment');
-            const data = await response.json();
-            setCommissions(data);
-        } catch (error) {
-             console.error('Error fetching commissions:', error);
-        }
-        }
-        fetchCommissions();
-    },[]);
-
-    if (response.ok) {
-    const data = await response.json();
-    setRemainingBalance(data.remaining_balance);
-    setPayments([...payments, data]);
-    } else {
-    console.error('Failed to process payment');
-    }
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/payment');
+        if (!response.ok) throw new Error('Failed to fetch payment');
+        const data: Payment[] = await response.json();
+        setPayments(data);
+      } catch (error) {
+        console.error('Error fetching payment:', error);
+      }
     };
 
-    const newPayment: Payment = {
-      id: (payments.length + 1).toString(),
-      penjualanId,
-      date: paymentDate,
-      amountPaid,
-      remainingBalance: remainingBalance - amountPaid,
-    };
-
-    setPayments([...payments, newPayment]);
-    setPenjualanId('');
-    setAmountPaid(0);
-    setPaymentDate('');
-    setRemainingBalance(remainingBalance - amountPaid);
-  };
+    fetchPayments();
+  }, []);
 
   return (
-    <div>
       <StyledTable>
         <TableHeader>
           <TableRow>
@@ -72,46 +42,14 @@ const TablePayment = () => {
           {payments.map((payment) => (
             <TableRow key={payment.id}>
               <TableCell>{payment.id}</TableCell>
-              <TableCell>{payment.penjualanId}</TableCell>
-              <TableCell>{payment.date}</TableCell>
-              <TableCell>{payment.amountPaid}</TableCell>
-              <TableCell>{payment.remainingBalance}</TableCell>
+              <TableCell>{payment.penjualan_id}</TableCell>
+              <TableCell>{payment.payment_date}</TableCell>
+              <TableCell>{payment.amount_paid}</TableCell>
+              <TableCell>{payment.remaining_balance}</TableCell>
             </TableRow>
           ))}
         </tbody>
       </StyledTable>
-
-      <form onSubmit={handlePaymentSubmit}>
-        <label htmlFor="penjualanId">ID Penjualan:</label>
-        <input
-          type="text"
-          id="penjualanId"
-          name="penjualanId"
-          value={penjualanId}
-          onChange={(e) => setPenjualanId(e.target.value)}
-        />
-        <br />
-        <label htmlFor="pembayaranAmount">Amount Paid:</label>
-        <input
-          type="number"
-          id="pembayaranAmount"
-          name="pembayaranAmount"
-          value={amountPaid}
-          onChange={(e) => setAmountPaid(parseFloat(e.target.value))}
-        />
-        <br />
-        <label htmlFor="pembayaranDate">Date:</label>
-        <input
-          type="date"
-          id="pembayaranDate"
-          name="pembayaranDate"
-          value={paymentDate}
-          onChange={(e) => setPaymentDate(e.target.value)}
-        />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
   );
 };
 

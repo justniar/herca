@@ -1,5 +1,5 @@
 import './App.css';
-import { ContentArea, FormContainer, FormWrapper, InputField, InputLabel, MainContainer, TableWrapper } from './styled';
+import { ContentArea, FormContainer, FormWrapper, InputField, InputLabel, MainContainer, SubmitButton, TableWrapper } from './styled';
 import Navbar from './components/header';
 import TableCommissions from './components/TableCommissions';
 import TableMarketing from './components/TableMarketing';

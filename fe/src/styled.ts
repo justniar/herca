@@ -16,6 +16,7 @@ export const ContentArea = styled.div`
 export const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 export const TableContainer = styled.div`
