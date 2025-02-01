@@ -12,18 +12,19 @@ interface Commission {
 const TableCommissions = () => {
     const [commissions, setCommissions] = useState<Commission[]>([]);
 
-  useEffect(()=>{
-    const fetchCommissions = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/commissions');
-        const data = await response.json();
-        setCommissions(data);
-      } catch (error) {
-        console.error('Error fetching commissions:', error);
-      }
-    }
-    fetchCommissions();
-  },[]);
+    useEffect(()=>{
+        const fetchCommissions = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/commissions');
+            const data = await response.json();
+            setCommissions(data);
+        } catch (error) {
+            console.error('Error fetching commissions:', error);
+        }
+        }
+        fetchCommissions();
+    },[]);
+
   return (
     <StyledTable>
         <TableHeader>
@@ -40,10 +41,10 @@ const TableCommissions = () => {
                 <TableRow key={index}>
                     <TableDataRow>{commissions.marketing_name}</TableDataRow>
                     <TableCell>{commissions.month}</TableCell>
-                    <TableCell>{commissions.omzet}</TableCell>
+                    <TableCell>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(commissions.omzet)}</TableCell>
                     <TableCell>{commissions.commission_pct.toFixed(2)}%</TableCell>
-                    <TableCell>{commissions.commission_nominal.toFixed(2)}</TableCell>
-                </TableRow>
+                    <TableCell>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(commissions.commission_nominal)}</TableCell>
+                    </TableRow>
                 ))}
             </tbody>
     </StyledTable>

@@ -44,9 +44,9 @@ const TablePayment = () => {
             <TableRow key={payment.id}>
               <TableCell>{payment.id}</TableCell>
               <TableCell>{payment.penjualan_id}</TableCell>
-              <TableCell>{payment.payment_date}</TableCell>
-              <TableCell>{payment.amount_paid}</TableCell>
-              <TableCell>{payment.remaining_balance}</TableCell>
+              <TableCell>{new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(payment.payment_date))}</TableCell>
+              <TableCell>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(payment.amount_paid)}</TableCell>
+              <TableCell>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(payment.remaining_balance)}</TableCell>
             </TableRow>
           ))}
         </tbody>

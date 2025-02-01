@@ -10,6 +10,7 @@ export const ContentArea = styled.div`
   display: flex;
   width: 80vw; 
   padding: 20px;
+  gap: 1rem;
   justify-content: space-between;
 `;
 

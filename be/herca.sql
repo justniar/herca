@@ -59,4 +59,8 @@ CREATE TABLE pembayaran (
     FOREIGN KEY (penjualan_id) REFERENCES penjualan(id) ON DELETE CASCADE
 );
 
+select * from pembayaran;
+ALTER TABLE penjualan ADD COLUMN status_pembayaran VARCHAR(20) DEFAULT 'Belum Lunas';
+
+
 
