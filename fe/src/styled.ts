@@ -11,6 +11,7 @@ export const ContentArea = styled.div`
   width: 80vw; 
   padding: 20px;
   gap: 5rem;
+  align-items: flex-start;
 `;
 
 export const TableWrapper = styled.div`

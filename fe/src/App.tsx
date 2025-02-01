@@ -5,10 +5,13 @@ import TableCommissions from './components/TableCommissions';
 import TableMarketing from './components/TableMarketing';
 import { useState } from 'react';
 import TablePayment from './components/TablePayment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [amountPaid, setAmountPaid] = useState<number>(0);
-  const [penjualanID, setPenjualanID] = useState<number>(0); 
+  const [penjualanID, setPenjualanID] = useState<number>(0);
+  const [refreshKey, setRefreshKey] = useState(0); 
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmountPaid(Number(e.target.value));
@@ -33,14 +36,21 @@ function App() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error:', errorData);
+        toast.error(`Gagal: ${errorData.message || 'Terjadi kesalahan'}`);
         return;
       }
 
       const responseData = await response.json();
+      toast.success('Pembayaran berhasil! 🎉');
       console.log('Payment successful:', responseData);
+
+      setPenjualanID(0);
+      setAmountPaid(0);
+
+      setRefreshKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error('Request failed:', error);
+      toast.error('Gagal: Server tidak merespons');
     }
   };
 
@@ -53,7 +63,7 @@ function App() {
           <TableCommissions/>
         </ContentArea>
         <ContentArea>
-          <TablePayment/>
+          <TablePayment key={refreshKey} />  
           <FormWrapper>
             <FormContainer onSubmit={handleSubmit}>
               <InputLabel htmlFor="penjualan_id">Penjualan ID</InputLabel>
@@ -77,6 +87,8 @@ function App() {
           </FormWrapper>
         </ContentArea>
       </TableWrapper>
+
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </MainContainer>
   );
 }
