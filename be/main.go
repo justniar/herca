@@ -120,7 +120,9 @@ func makePayment(c *gin.Context) {
 
 	newBalance := remainingBalance - req.AmountPaid
 
-	_, err = db.Exec("INSERT INTO pembayaran (penjualan_id, payment_date, amount_paid, remaining_balance) VALUES ($1, $2, $3, $4)", req.PenjualanID, time.Now(), req.AmountPaid, newBalance)
+	_, err = db.Exec(`
+		INSERT INTO pembayaran (penjualan_id, payment_date, amount_paid, remaining_balance)
+		VALUES ($1, $2, $3, $4)`, req.PenjualanID, time.Now(), req.AmountPaid, newBalance)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process payment"})
 		return
@@ -132,7 +134,38 @@ func makePayment(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Payment successful", "remaining_balance": newBalance})
+	if newBalance == 0 {
+		_, err = db.Exec("UPDATE penjualan SET status_pembayaran = 'Lunas' WHERE id = $1", req.PenjualanID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update payment status"})
+			return
+		}
+	}
+
+	statusPembayaran := "Belum Lunas"
+	if newBalance == 0 {
+		statusPembayaran = "Lunas"
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":           "Payment successful",
+		"remaining_balance": newBalance,
+		"status_pembayaran": statusPembayaran,
+	})
+
+}
+
+func checkTransactionStatus(c *gin.Context) {
+	penjualanID := c.Param("id")
+
+	var status string
+	err := db.QueryRow("SELECT status_pembayaran FROM penjualan WHERE id = $1", penjualanID).Scan(&status)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Transaction not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status_pembayaran": status})
 }
 
 func main() {
@@ -143,6 +176,7 @@ func main() {
 
 	r.GET("/commissions", getMarketingCommissions)
 	r.POST("/payment", makePayment)
+	r.GET("/transaction/:id/status", checkTransactionStatus)
 
 	r.Run(":8080")
 }
