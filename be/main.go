@@ -22,8 +22,8 @@ type Commission struct {
 }
 
 type PaymentRequest struct {
-	PenjualanID int   `json:"penjualan_id`
-	AmountPaid  int64 `json:"amount_paid`
+	PenjualanID int   `json:"penjualan_id"`
+	AmountPaid  int64 `json:"amount_paid"`
 }
 
 func connectDB() {
