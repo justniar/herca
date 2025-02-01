@@ -10,22 +10,32 @@ export const ContentArea = styled.div`
   display: flex;
   width: 80vw; 
   padding: 20px;
-  gap: 5rem;
-  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+export const TableTitle = styled.h2`
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  color: #333;
+  border-bottom: 3px solid #007BFF;
 `;
 
 export const TableWrapper = styled.div`
+  width: auto;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 `;
 
 export const TableContainer = styled.div`
-  overflow-x: auto;
+  /* overflow-x: auto; */
 `;
 
 export const StyledTable = styled.table`
-  width: 50%;
+  width: 100%;
   font-size: 0.875rem;
   text-align: left;
   color: #6B7280; 
@@ -72,7 +82,7 @@ export const TableCell = styled.td`
 export const TableDataRow = styled.th`
   padding: 1rem 1.5rem;
   font-weight: 500;
-  text-color: #111827; 
+  color: #111827; 
   
   @media (prefers-color-scheme: dark) {
     color: white;
@@ -80,9 +90,9 @@ export const TableDataRow = styled.th`
 `;
 
 export const NavBar = styled.header`
-    width: 20%;
+    width: 15%;
     height: 100vh;
-    background-color:rgb(215, 225, 245);
+    background-color:#007BFF;
     color: #fff;
     padding: 5px;
     margin-bottom: 2rem;

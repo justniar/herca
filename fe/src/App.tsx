@@ -1,5 +1,5 @@
 import './App.css';
-import { ContentArea, FormContainer, FormWrapper, InputField, InputLabel, MainContainer, SubmitButton, TableWrapper } from './styled';
+import { ContentArea, FormContainer, FormWrapper, InputField, InputLabel, MainContainer, SubmitButton, TableTitle, TableWrapper } from './styled';
 import Navbar from './components/header';
 import TableCommissions from './components/TableCommissions';
 import TableMarketing from './components/TableMarketing';
@@ -59,32 +59,47 @@ function App() {
       <Navbar/>
       <TableWrapper>
         <ContentArea>
-          <TableMarketing/>
-          <TableCommissions/>
+          <TableWrapper>
+            <TableTitle>Data Pegawai Marketing</TableTitle>
+            <TableMarketing/>
+          </TableWrapper>
+
+          <TableWrapper>
+            <TableTitle>Data Komisi</TableTitle>
+            <TableCommissions/>
+          </TableWrapper>
         </ContentArea>
         <ContentArea>
-          <TablePayment key={refreshKey} />  
-          <FormWrapper>
-            <FormContainer onSubmit={handleSubmit}>
-              <InputLabel htmlFor="penjualan_id">Penjualan ID</InputLabel>
-              <InputField
-                type="number"
-                id="penjualan_id"
-                name="penjualan_id"
-                value={penjualanID}
-                onChange={(e) => setPenjualanID(Number(e.target.value))}
-              />
-              <InputLabel htmlFor="amount_paid">Amount</InputLabel>
-              <InputField
-                type="number"
-                id="amount_paid"
-                name="amount_paid"
-                value={amountPaid}
-                onChange={handleAmountChange}
-              />
-              <SubmitButton type="submit">Submit</SubmitButton>
-            </FormContainer>
-          </FormWrapper>
+          <TableWrapper>
+            <TableTitle>Tabel Pembayaran</TableTitle>
+            <TablePayment key={refreshKey} />  
+          </TableWrapper>
+        
+          <TableWrapper>
+            <TableTitle>Form Pembayaran</TableTitle>
+            <FormWrapper>
+              <FormContainer onSubmit={handleSubmit}>
+                <InputLabel htmlFor="penjualan_id">Penjualan ID</InputLabel>
+                <InputField
+                  type="number"
+                  id="penjualan_id"
+                  name="penjualan_id"
+                  value={penjualanID}
+                  onChange={(e) => setPenjualanID(Number(e.target.value))}
+                />
+                <InputLabel htmlFor="amount_paid">Amount</InputLabel>
+                <InputField
+                  type="number"
+                  id="amount_paid"
+                  name="amount_paid"
+                  value={amountPaid}
+                  onChange={handleAmountChange}
+                />
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </FormContainer>
+            </FormWrapper>
+          </TableWrapper>
+          
         </ContentArea>
       </TableWrapper>
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyledTable, TableCell, TableHeader, TableHeaderCell, TableRow } from '../styled';
+import { useEffect, useState } from 'react';
+import { StyledTable, TableCell, TableHeader, TableHeaderCell, TableRow} from '../styled';
 
 interface Payment {
   id: number;
@@ -28,6 +28,7 @@ const TablePayment = () => {
   }, []);
 
   return (
+    <>
       <StyledTable>
         <TableHeader>
           <TableRow>
@@ -50,6 +51,7 @@ const TablePayment = () => {
           ))}
         </tbody>
       </StyledTable>
+    </>
   );
 };
 
