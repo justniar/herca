@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
@@ -173,6 +174,7 @@ func main() {
 	defer db.Close()
 
 	r := gin.Default()
+	r.Use(cors.Default())
 
 	r.GET("/commissions", getMarketingCommissions)
 	r.POST("/payment", makePayment)
